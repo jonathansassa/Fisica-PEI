@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Física PEI — Professor Sassá</title>
+<style>
+:root{--navy:#17324d;--blue:#246b9e;--pale:#eef6fb;--ink:#1d2935;--line:#d7e1e8;--gold:#f2c66d}
+*{box-sizing:border-box}
+body{margin:0;background:#f3f6f8;color:var(--ink);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+header{background:linear-gradient(135deg,var(--navy),#285d80);color:white;padding:32px 18px}
+.head{max-width:920px;margin:auto}
+.kicker{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:#d9e9f5;font-weight:700}
+h1{margin:.35rem 0;font-size:clamp(1.7rem,4vw,2.4rem);line-height:1.15}
+header p{margin:.6rem 0 0;max-width:680px;color:#e9f3f9}
+main{max-width:920px;margin:24px auto;padding:0 16px 48px}
+.card{background:white;border:1px solid var(--line);border-radius:16px;padding:22px;margin:16px 0;box-shadow:0 5px 20px #17324d0a}
+h2{font-size:1.15rem;color:var(--navy);margin:0 0 14px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.field{display:flex;flex-direction:column;gap:6px}
+label,.legend{font-weight:650}
+small,.help{color:#586a78;font-size:.9rem}
+input[type=text],textarea,select{width:100%;border:1px solid #b8c8d4;border-radius:9px;padding:11px 12px;font:inherit;background:#fff;color:var(--ink)}
+textarea{min-height:88px;resize:vertical}
+fieldset{border:0;padding:0;margin:0}
+.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:10px}
+.choice{display:flex;align-items:flex-start;gap:9px;padding:10px;border:1px solid var(--line);border-radius:10px;background:#fbfdfe;font-weight:450}
+.choice input{margin-top:4px;accent-color:var(--blue);flex-shrink:0}
+.inline{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px}
+.inline label{font-weight:450;display:flex;gap:8px;align-items:flex-start}
+.inline input{margin-top:5px;accent-color:var(--blue)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+button,.button{border:0;border-radius:10px;padding:12px 16px;font:inherit;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+.primary{background:var(--blue);color:white}.secondary{background:var(--pale);color:var(--navy);border:1px solid #c9dce9}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.notice{background:#fff8e8;border-left:4px solid var(--gold);padding:12px 14px;border-radius:8px}
+#result{display:none}
+#promptOutput{min-height:260px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.9rem}
+footer{text-align:center;color:#637583;font-size:.85rem;padding:20px}
+@media(max-width:640px){.grid,.choices{grid-template-columns:1fr}.card{padding:17px}header{padding:26px 18px}}
+@media print{body{background:#fff}.actions,header p,.notice{display:none!important}.card{box-shadow:none;break-inside:avoid}main{margin:0;max-width:none}#result{display:block!important}}
+</style>
+</head>
+<body>
+<header><div class="head">
+<div class="kicker">Ferramenta pedagógica</div>
+<h1>Física PEI — Professor Sassá</h1>
+<p>Monte as orientações para criar uma atividade de Física adaptada, visual, acessível e pronta para impressão.</p>
+</div></header>
+<main>
+<div class="notice"><strong>Privacidade:</strong> não informe nome completo, diagnóstico detalhado ou outros dados que identifiquem o estudante. Descreva apenas os apoios pedagógicos necessários.</div>
+<form id="peiForm">
+<section class="card">
+<h2>1. Turma e conteúdo</h2>
+<div class="grid">
+<div class="field"><label for="turma">Turma</label><select id="turma">
+<option>9º ano do Ensino Fundamental</option><option>1º ano do Ensino Médio</option><option selected>2º ano do Ensino Médio</option><option>3º ano do Ensino Médio</option><option>Outra turma</option></select></div>
+<div class="field"><label for="paginas">Quantidade de páginas</label><select id="paginas"><option>1 página</option><option selected>2 páginas</option><option>3 páginas</option><option>4 páginas</option></select></div>
+</div>
+<div class="field" style="margin-top:15px"><label for="conteudo">Conteúdo de Física <span aria-hidden="true">*</span></label><textarea id="conteudo" required placeholder="Ex.: variáveis de um gás, pressão, volume, temperatura e equação de Clapeyron"></textarea></div>
+<div class="field" style="margin-top:15px"><label for="nivel">Nível de adaptação</label><select id="nivel"><option>Adaptação leve, mantendo a complexidade da turma</option><option selected>Adaptada, mantendo o tema da turma</option><option>Bem simplificada, priorizando reconhecimento e participação</option></select></div>
+</section>
+<section class="card">
+<h2>2. Perfil de aprendizagem e apoios</h2>
+<div class="field"><label for="apoios">Necessidades e apoios pedagógicos</label><textarea id="apoios" placeholder="Ex.: enunciados curtos, apoio visual, fonte ampliada, menos itens por página..."></textarea></div>
+<div class="grid" style="margin-top:15px">
+<fieldset><legend class="legend">Leitura e escrita</legend><div class="inline">
+<label><input type="radio" name="leitura" value="Lê e escreve frases" >Lê e escreve frases</label>
+<label><input type="radio" name="leitura" value="Reconhece algumas palavras" checked>Reconhece algumas palavras</label>
+<label><input type="radio" name="leitura" value="Reconhece letras, números e símbolos">Reconhece letras, números e símbolos</label>
+<label><input type="radio" name="leitura" value="Responde oralmente ou apontando">Responde oralmente ou apontando</label>
+</div></fieldset>
+<fieldset><legend class="legend">Autonomia na atividade</legend><div class="inline">
+<label><input type="radio" name="autonomia" value="Realiza atividades simples sozinho">Realiza atividades simples sozinho</label>
+<label><input type="radio" name="autonomia" value="Precisa de ajuda para compreender e responder">Precisa de ajuda para compreender e responder</label>
+<label><input type="radio" name="autonomia" value="Precisa de orientação passo a passo" checked>Precisa de orientação passo a passo</label>
+<label><input type="radio" name="autonomia" value="Responde principalmente por escolhas, gestos ou fala">Responde por escolhas, gestos ou fala</label>
+</div></fieldset>
+</div>
+<div class="grid" style="margin-top:18px">
+<div class="field"><label for="interesses">Interesses do estudante (opcional)</label><textarea id="interesses" placeholder="Ex.: futebol, carros, música, desenhos, espaço..."></textarea></div>
+<div class="field"><label for="apoioProf">Apoio do profissional de apoio</label><select id="apoioProf"><option selected>Lê os enunciados, explica e apresenta opções</option><option>Ajuda a organizar os materiais e iniciar cada etapa</option><option>Oferece pistas visuais e apoio passo a passo</option><option>Registra respostas dadas oralmente ou por apontamento</option><option>Outro — detalhar nas observações</option></select></div>
+</div>
+</section>
+<section class="card">
+<h2>3. Objetivos pedagógicos</h2>
+<p class="help">Marque todos os objetivos desejados.</p>
+<div class="choices">
+<label class="choice"><input type="checkbox" name="objetivo" value="Reconhecer conceitos principais" checked>Reconhecer conceitos principais</label>
+<label class="choice"><input type="checkbox" name="objetivo" value="Relacionar imagens e situações cotidianas" checked>Relacionar imagens e situações cotidianas</label>
+<label class="choice"><input type="checkbox" name="objetivo" value="Identificar símbolos, grandezas e fórmulas">Identificar símbolos, grandezas e fórmulas</label>
+<label class="choice"><input type="checkbox" name="objetivo" value="Resolver cálculos simples">Resolver cálculos simples</label>
+<label class="choice"><input type="checkbox" name="objetivo" value="Interpretar gráficos e tabelas">Interpretar gráficos e tabelas</label>
+<label class="choice"><input type="checkbox" name="objetivo" value="Comunicar respostas oralmente ou por escolhas">Comunicar respostas oralmente ou por escolhas</label>
+<label class="choice"><input type="checkbox" name="objetivo" value="Demonstrar compreensão e participação">Demonstrar compreensão e participação</label>
+<label class="choice"><input type="checkbox" name="objetivo" value="Desenvolver autonomia na atividade">Desenvolver autonomia na atividade</label>
+</div>
+</section>
+<section class="card">
+<h2>4. Formatos da atividade</h2>
+<p class="help">Você pode combinar diferentes formatos.</p>
+<div class="choices">
+<label class="choice"><input type="checkbox" name="formato" value="Desenhos para observar e colorir" checked>Desenhos para observar e colorir</label>
+<label class="choice"><input type="checkbox" name="formato" value="Ligar figuras, marcar X e circular respostas" checked>Ligar figuras, marcar X e circular respostas</label>
+<label class="choice"><input type="checkbox" name="formato" value="Recortar e colar imagens">Recortar e colar imagens</label>
+<label class="choice"><input type="checkbox" name="formato" value="Completar palavras ou frases">Completar palavras ou frases</label>
+<label class="choice"><input type="checkbox" name="formato" value="Associar conceitos e figuras">Associar conceitos e figuras</label>
+<label class="choice"><input type="checkbox" name="formato" value="Ordenar etapas ou imagens">Ordenar etapas ou imagens</label>
+<label class="choice"><input type="checkbox" name="formato" value="Questões de múltipla escolha">Questões de múltipla escolha</label>
+<label class="choice"><input type="checkbox" name="formato" value="Cálculos com apoio visual">Cálculos com apoio visual</label>
+<label class="choice"><input type="checkbox" name="formato" value="Experimentos ou situações do cotidiano">Experimentos ou situações do cotidiano</label>
+</div>
+</section>
+<section class="card">
+<h2>5. Materiais complementares</h2>
+<div class="inline">
+<label><input type="checkbox" id="guia" checked>Incluir orientações separadas para o profissional de apoio</label>
+<label><input type="checkbox" id="gabarito" checked>Incluir gabarito separado para o professor</label>
+</div>
+<div class="field" style="margin-top:16px"><label for="observacoes">Observações adicionais (opcional)</label><textarea id="observacoes" placeholder="Ex.: impressão em preto e branco, traços grossos, pouco texto, evitar visual infantilizado..."></textarea></div>
+<div class="actions"><button class="primary" type="submit">Gerar instruções da atividade</button><button class="secondary" type="reset">Limpar formulário</button></div>
+</section>
+</form>
+<section class="card" id="result">
+<h2>Instruções prontas para usar no ChatGPT</h2>
+<p>Copie o texto abaixo e cole em uma conversa do ChatGPT para solicitar a produção da atividade e dos materiais complementares.</p>
+<textarea id="promptOutput" readonly></textarea>
+<div class="actions">
+<button type="button" class="primary" id="copyBtn">Copiar instruções</button>
+<button type="button" class="secondary" id="downloadBtn">Baixar arquivo .txt</button>
+<button type="button" class="secondary" id="printBtn">Imprimir esta página</button>
+<a class="button secondary" href="https://chatgpt.com/" target="_blank" rel="noopener">Abrir ChatGPT</a>
+</div>
+<p class="help">Esta página organiza as informações e prepara o pedido. A criação do conteúdo e dos PDFs acontece depois, no ChatGPT; este formulário sozinho não envia dados nem gera PDFs automaticamente.</p>
+</section>
+<footer>Física PEI — Professor Sassá · Ferramenta de apoio ao planejamento pedagógico</footer>
+</main>
+<script>
+const form=document.getElementById('peiForm');
+const getRadio=n=>form.querySelector(`input[name="${n}"]:checked`)?.value||'Não informado';
+const getChecks=n=>[...form.querySelectorAll(`input[name="${n}"]:checked`)].map(x=>x.value);
+form.addEventListener('submit',e=>{
+ e.preventDefault();
+ const content=document.getElementById('conteudo').value.trim();
+ const objectives=getChecks('objetivo'), formats=getChecks('formato');
+ if(!content){alert('Informe o conteúdo de Física.');return}
+ if(!objectives.length){alert('Selecione pelo menos um objetivo pedagógico.');return}
+ if(!formats.length){alert('Selecione pelo menos um formato de atividade.');return}
+ const lines=[
+ 'Crie uma atividade de Física adaptada para impressão, com base nas informações abaixo.',
+ '',
+ 'PROJETO: Física PEI — Professor Sassá',
+ 'Turma: '+document.getElementById('turma').value,
+ 'Conteúdo: '+content,
+ 'Quantidade: '+document.getElementById('paginas').value,
+ 'Nível de adaptação: '+document.getElementById('nivel').value,
+ 'Leitura e escrita: '+getRadio('leitura'),
+ 'Autonomia: '+getRadio('autonomia'),
+ 'Necessidades e apoios: '+(document.getElementById('apoios').value.trim()||'Não especificado'),
+ 'Interesses para contextualização: '+(document.getElementById('interesses').value.trim()||'Não informado'),
+ 'Apoio do profissional de apoio: '+document.getElementById('apoioProf').value,
+ 'Objetivos pedagógicos: '+objectives.join('; '),
+ 'Formatos escolhidos: '+formats.join('; '),
+ 'Orientações separadas para profissional de apoio: '+(document.getElementById('guia').checked?'Sim':'Não'),
+ 'Gabarito separado para o professor: '+(document.getElementById('gabarito').checked?'Sim':'Não'),
+ 'Observações: '+(document.getElementById('observacoes').value.trim()||'Nenhuma'),
+ '',
+ 'ORIENTAÇÕES DE PRODUÇÃO:',
+ '- Use instruções curtas, linguagem acessível e boa organização visual.',
+ '- Mantenha o conteúdo cientificamente correto e alinhado ao tema da turma.',
+ '- Evite infantilizar a apresentação quando for para estudantes do Ensino Médio.',
+ '- Se houver desenhos para colorir, use line art preto e branco, contornos nítidos e áreas amplas para colorir, sem sombras nem tons de cinza.',
+ '- Dê espaço suficiente para responder e evite excesso de itens por página.',
+ '- Produza a atividade principal e, se solicitado, arquivos separados para o profissional de apoio e para o gabarito do professor.',
+ '- Prepare os materiais em PDF e, quando possível, também em formato editável.',
+ '- Se alguma informação essencial estiver faltando, pergunte antes de concluir.'
+ ];
+ document.getElementById('promptOutput').value=lines.join('\n');
+ const result=document.getElementById('result');result.style.display='block';result.scrollIntoView({behavior:'smooth',block:'start'});
+});
+document.getElementById('copyBtn').addEventListener('click',async()=>{
+ const t=document.getElementById('promptOutput').value;
+ try{await navigator.clipboard.writeText(t);alert('Instruções copiadas! Agora cole-as em uma conversa do ChatGPT.')}
+ catch(e){const a=document.getElementById('promptOutput');a.focus();a.select();alert('O texto está selecionado. Use Ctrl+C para copiar.')}
+});
+document.getElementById('downloadBtn').addEventListener('click',()=>{
+ const blob=new Blob([document.getElementById('promptOutput').value],{type:'text/plain;charset=utf-8'});
+ const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='fisica-pei-instrucoes.txt';a.click();URL.revokeObjectURL(url);
+});
+document.getElementById('printBtn').addEventListener('click',()=>window.print());
+form.addEventListener('reset',()=>{document.getElementById('result').style.display='none'});
+</script>
+</body>
+</html>
